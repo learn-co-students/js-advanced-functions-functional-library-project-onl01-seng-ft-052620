@@ -25,3 +25,5 @@ const fi = (function() {
 })()
 
 fi.libraryMethod()
+
+This is not a good lab.
