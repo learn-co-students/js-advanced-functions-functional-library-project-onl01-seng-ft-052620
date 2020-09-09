@@ -242,7 +242,6 @@ describe('index.js', function () {
 
     it('removes duplicate values from an array when an iteratee is applied', function () {
       const newArr = fi.uniq([1, 2, 2, 3, 4, 6, 9], false, (val => val % 3))
-      console.log(newArr)
       expect(arraysEqual(newArr, [1, 2, 3])).to.equal(true)
     })
 
@@ -284,9 +283,10 @@ describe('index.js', function () {
 
     const final = ["c", "k", "z"]
 
-
     it('returns a sorted collection of the names of every method in an object', function () {
-      expect(arraysEqual(fi.functions(testObject), final)).to.equal(true)
+      let ans = fi.functions(testObject)
+      console.log(ans)
+      expect(arraysEqual(ans, final)).to.equal(true)
     })
   })
 })
