@@ -107,18 +107,18 @@ const fi = (function() {
   //   let length = (collection instanceof Array) ? collection.length : Object.keys(collection).length
   //   return length
   // },
-  size: function(collection){
-    return Object.keys(collection).length 
-  },
+    size: function(collection){
+      return Object.keys(collection).length 
+    },
 
-  first: function(array, n){
-    if(n) {
-      return array.splice(0, n)
-    }
-    else {
-      return array[0];
-    }
-  },
+    first: function(array, n){
+      if(n) {
+        return array.splice(0, n)
+      }
+      else {
+        return array[0];
+      }
+    },
 
   // first: function(collection, n = 1){
   //   let count = 1;
@@ -132,11 +132,11 @@ const fi = (function() {
   //   return array.lenfth > 1 ? array : array[0]
   // },
 
-  last: function(collection, n = 1){
-    let startingElement = collection.length - n;
+    last: function(collection, n = 1){
+      let startingElement = collection.length - n;
 
-   return n > 1 ? collection.slice(startingElement, collection.length) : collection[startingElement]
-  },
+    return n > 1 ? collection.slice(startingElement, collection.length) : collection[startingElement]
+    },
 
     // last: function(array, n){
     //   if(n){
@@ -163,11 +163,11 @@ const fi = (function() {
 
 // fi.sortBy(array, callback) --Returns a sorted copy of array, ranked in ascending order by the results of running each value through callback. The values from the original array should be retained within the sorted copy, just in ascending order.
    
-sortBy: function(array, callback){
-      let newArray = [...array]
-    return newArray.sort(function(a, b){
-      return callback(a) - callback(b)
-    })
+    sortBy: function(array, callback){
+        let newArray = [...array]
+      return newArray.sort(function(a, b){
+        return callback(a) - callback(b)
+      })
     },
 
     // sortBy: function(collection, callback){
@@ -175,17 +175,55 @@ sortBy: function(array, callback){
     // },
 
     //fi.flatten(array, [shallow]) Flattens a nested array (the nesting can be to any depth).If you pass true for the second argument, the array will only be flattened a single level.
-    flatten: function(array, shallow = false){
-      if (shallow){
-        return array.flat(1);
-      } else {
-        return array.flat(Infinity)
+    // flatten: function(array, shallow = false){
+    //   if (shallow){
+    //     return array.flat(1);
+    //   } else {
+    //     return array.flat(Infinity)
+    //   }
+    // },
+    flatten: function(array, oneLevel){
+      if (oneLevel){
+        return array.flat();
       }
+      const stack = [...array];
+      const res = [];
+      while (stack.length){
+        const next = stack.pop();
+        if (Array.isArray(next)){
+          stack.push(...next);
+        }else {
+          res.push(next);
+        }
+      }
+      return res.reverse();
     },
     //fi.uniq(array, [isSorted], [callback]) Produces a duplicate-free version of the array, using === to test object equality. In particular only the first occurrence of each value is kept.
-    uniq: function(array, isSorted, callback){
+   
+    uniq: function(collection, isSorted, callback ) {
+      let newArray = []
 
-    },
+      let callbackReturn = [];
+
+
+      for (let i= 0; i < collection.length; i++){
+        const element = collection[i];
+        if(!newArray.includes(element)){
+          if(callback){
+            let cn = callback(element);
+            if(!callbackReturn.includes(cn)){
+              callbackReturn.push(cn);
+              newArray.push(element);
+
+            } 
+          } else {
+            newArray.push(element);
+          }
+        }
+      }
+      return newArray;
+  },
+
     keys: function(obj){
       return Object.keys(obj)
     },
