@@ -114,16 +114,81 @@ const fi = (function() {
       return newArray
     },
 
-    flatten: function(array, shallow){
-      array.forEach(element => {
-        if (Array.isArray)
-      })
+    flatten: function(array, shallow, flatArray=[]){
+      if (shallow){
+        array.forEach(element=>{
+          if (Array.isArray(element)){
+            for(const ele of element){
+              flatArray.push(ele)
+            }
+          }else{
+            flatArray.push(element)
+          }
+        })
+      }else{
+        array.forEach(element => {
+          if (Array.isArray(element)){
+            flatArray.concat(this.flatten(element, false, flatArray));
+          }else{
+            flatArray.push(element);
+          }
+  
+       
+        });
+      }
+
+      return flatArray;
     },
 
-    
+    uniq: function(array, isSorted=false, callBack=false){
+      //unsorted situation
+      let uniqueArray = []
+      let arrayCopy = []
+      array.forEach(element=> arrayCopy.push(element))
 
-    functions: function() {
+      if (isSorted){
 
+      }else{
+        for(const key in array){
+          for(let i=key; i<arrayCopy.length; i++){
+            if ((i !== key) && (!callBack)){
+              arrayCopy[i] === array[key] ? arrayCopy[i] = "" : arrayCopy[i]
+            }else if((i !== key) && (!!callBack)){
+              callBack(arrayCopy[i]) === callBack(array[key]) ? arrayCopy[i] = "" : arrayCopy[i]
+            }
+          }
+        }
+      }
+      arrayCopy.forEach(element=> (!!element) ? uniqueArray.push(element) : console.log(element))
+      return uniqueArray;
+    },
+    keys: function(object){
+      let allKeys = []
+      for(const key in object){
+        allKeys.push(key);
+      }
+      return allKeys;
+    },
+
+    values: function(object){
+      let allValues = []
+      for(const key in object){
+        allValues.push(object[key]);
+      }
+      return allValues;
+    },
+
+    functions: function(object) {
+      let allFunctions = []
+      for (const key in object){
+        if (typeof (object[key]) === 'function'){
+          allFunctions.push(key)
+        }
+      }
+      allFunctions = allFunctions.sort((a,b) => {
+        return (a) - (b);
+      })
+      return allFunctions
     },
 
 
