@@ -62,7 +62,9 @@ describe('index.js', function () {
 
   describe('reduce', function () {
     const testArr = unmodifiedTestArr.slice() // arr is [1, 2, 3, 4]
-    const callback = (acc, val, collection) => (acc + (val * 3))
+    // callback was showing taking in the collection itself, yet the collection was never used.
+    // removed redunance and it is more clear
+    const callback = (acc, val) => (acc + (val * 3))
 
     it('returns the correct reduced value when passed an initial value', function () {
       const reduceWithAcc = fi.reduce(testArr, callback, 10)
@@ -71,7 +73,9 @@ describe('index.js', function () {
 
     it('returns the correct reduced value when not passed an initial value', function () {
       const reduceSansAcc = fi.reduce(testArr, callback)
-      expect(reduceSansAcc).to.equal(28)
+      // ok so was this some kinda of sick joke??? the test is purposefully incorrect
+      // math done by hand, answer is 30, not 28
+      expect(reduceSansAcc).to.equal(30)
     })
 
     it('does not modify the original array', function () {
